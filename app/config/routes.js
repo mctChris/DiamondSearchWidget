@@ -8,7 +8,6 @@ var plans = require(_base + 'app/config/plans');
 var ejs = require('ejs');
 var fetch = require('node-fetch');
 var DiamondModel = require(_base+'app/models/diamonds');
-var accessToken = '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';
 var Excel = require('exceljs');
 
 
@@ -130,7 +129,7 @@ router.post('/import_from_api', async function(req, res) {
         })
     })
     .then(res => res.json())
-    .then(res => res.DATA);   
+    .then(res => res.DATA);
 
     var [diamonds_from_api_1, diamonds_from_api_2, diamonds_from_db] = await Promise.all([get_diamonds_from_api_1, get_diamonds_from_api_2, get_diamonds_from_db]);
 
@@ -183,7 +182,7 @@ router.post('/import_from_api', async function(req, res) {
         obj.shopify_compare_at_price = 0;
 
         return obj;
-    }) 
+    })
 
     diamonds_from_api = [...diamonds_from_api_1, ...diamonds_from_api_2];
 
@@ -279,7 +278,7 @@ router.post('/import_from_excel', async function(req, res) {
             shopify_price: Math.round(Number(row.getCell(columns.amount).toString()) * 7.9 * 2.5),
             shopify_compare_at_price: 0
         })
-    });    
+    });
 
     // filter diamonds from excel
     diamonds_from_excel = removeUnwantedDiamonds(diamonds_from_excel);
@@ -299,10 +298,10 @@ router.post('/import_from_excel', async function(req, res) {
 
     console.log('add', diamonds_to_add.length);
     console.log('update', diamonds_to_update.length);
-    console.log('delete', diamonds_to_delete.length);    
+    console.log('delete', diamonds_to_delete.length);
 
     res.sendStatus(200);
-    
+
     if (diamonds_to_add.length) {
         req.diamonds_to_add = diamonds_to_add;
         add_diamonds(req);
@@ -347,7 +346,7 @@ router.get('/', async function(req, res) {
     ejs.renderFile(_viewPath + 'index.ejs', { data: data },function(err, data) {
         if (err) console.log(err);
         res.send(data);
-    }); 
+    });
 });
 
 function get_diamonds_to_add(diamonds_from_source, diamonds_from_db) {
@@ -417,7 +416,7 @@ function get_diamonds_to_delete(diamonds_from_source, diamonds_from_db) {
 async function add_diamonds(req) {
     // req.diamonds_to_add = req.diamonds_to_add.slice(0, 11);
     req.shopify.on('callLimits', (limits) => console.log(limits));
-    
+
     // add to shopify
     var promises = [];
     var shopify_ids = [];
@@ -441,7 +440,7 @@ async function add_diamonds(req) {
                     inventory_policy: "deny",
                     cost: d.PriceTotal,
                     price: d.shopify_price
-                }                
+                }
             ]
         })
         promises.push(add_to_shopify);
@@ -464,7 +463,7 @@ async function add_diamonds(req) {
     }
     await Promise.all(promises);
 
-    console.log('added');    
+    console.log('added');
 
     // for (var i = 0; i < req.diamonds_to_add.length; i++) {
     //     var d = req.diamonds_to_add[i];
@@ -487,14 +486,14 @@ async function add_diamonds(req) {
     //                 inventory_policy: "deny",
     //                 cost: d.PriceTotal,
     //                 price: d.shopify_price
-    //             }                
+    //             }
     //         ]
     //     })
     //     // promises.push(add_to_shopify);
 
     //     // add to db
     //     d.shopify_id = add_to_shopify.id;
-    //     var addToDb = await req.Diamonds.create(d);        
+    //     var addToDb = await req.Diamonds.create(d);
 
     //     console.log('added 1 d', i, req.diamonds_to_add.length);
     // }
@@ -513,7 +512,7 @@ async function delete_diamonds(req) {
         // promises.push(del);
         var delete_from_db = await req.Diamonds.delete({
             _id: ObjectID(d._id)
-        });        
+        });
 
         var delete_from_shopify = await req.shopify.product.delete(d.shopify_id);
         // promises.push(delete_from_shopify);
@@ -538,10 +537,10 @@ async function update_diamonds(req) {
                     inventory_policy: "deny",
                     price: d.shopify_price,
                     cost: d.PriceTotal,
-                }                
+                }
             ]
         })
-        // promises.push(update_in_shopify);      
+        // promises.push(update_in_shopify);
 
         // update in db
         var update_in_db = await req.Diamonds.update(
@@ -552,7 +551,7 @@ async function update_diamonds(req) {
             }
         )
 
-        console.log('updated 1 d', i, req.diamonds_to_update.length);      
+        console.log('updated 1 d', i, req.diamonds_to_update.length);
     }
 
     // await Promise.all(promises);
@@ -567,8 +566,8 @@ async function update_diamonds(req) {
     //             PriceTotal: d.PriceTotal,
     //             shopify_price: d.shopify_price,
     //         }
-    //     )  
-    //     // promises.push(update);          
+    //     )
+    //     // promises.push(update);
     // }
 
     // await Promise.all(promises);
@@ -582,13 +581,13 @@ function removeUnwantedDiamonds(diamonds) {
     var cut = ["IDEAL", "EX", "VG", "ID"];
     var clarity = ["IF", "VVS1", "VVS2", "VS1", "VS2", "SI1"];
 
-    diamonds = diamonds.filter(d => 
-        color.includes(d.Color) 
-        // && cut.includes(d.CUT) 
+    diamonds = diamonds.filter(d =>
+        color.includes(d.Color)
+        // && cut.includes(d.CUT)
         && ((cut.includes(d.CUT)) || (d.Shape.toLowerCase() !== 'round' && d.CUT === ''))
-        && clarity.includes(d.Clarity) 
-        && d.DiamondVideo !== "" 
-        && Number(d.Weight) >= 1);    
+        && clarity.includes(d.Clarity)
+        && d.DiamondVideo !== ""
+        && Number(d.Weight) >= 1);
 
     return diamonds;
 }
