@@ -1,0 +1,50 @@
+{
+  "name": "framework-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "mode=dev nodemon index.js",
+    "prod": "mode=prod nodemon index.js"
+  },
+  "author": "Raphael",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^5.3.0",
+    "@hotwired/turbo": "^7.1.0",
+    "@shopify/app-bridge-react": "^1.29.0",
+    "body-parser": "^1.19.0",
+    "child_process": "^1.0.2",
+    "compression": "^1.7.4",
+    "connect-mongo": "^3.2.0",
+    "crypto-random-string": "^3.3.0",
+    "date-fns": "^2.16.1",
+    "dotenv": "^8.6.0",
+    "ejs": "^3.1.6",
+    "esm": "^3.2.25",
+    "exceljs": "^4.3.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.0",
+    "express-jwt": "^6.0.0",
+    "express-session": "^1.17.1",
+    "express-unless": "^0.5.0",
+    "helmet": "^4.4.1",
+    "jwt-decode": "^3.1.2",
+    "liquidjs": "^9.15.0",
+    "moment": "^2.29.1",
+    "mongodb": "^3.6.2",
+    "node-fetch": "^2.6.7",
+    "node-shopify-auth": "^1.0.13",
+    "nodemailer": "^6.5.0",
+    "path": "^0.12.7",
+    "querystring": "^0.2.0",
+    "raw-body": "^2.4.1",
+    "shopify-api-node": "^3.6.2",
+    "shopify-node-api": "^1.11.1",
+    "turbolinks": "^5.2.0"
+  },
+  "devDependencies": {
+    "cra-build-watch": "^3.4.0",
+    "nodemon": "^2.0.4"
+  }
+}

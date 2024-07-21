@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Artory Diamonds</title>
+    <link rel="stylesheet" href="/resources/css/style.css" type="text/css">
+
+    <!-- tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>      
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+            colors: {
+                'shopify-600': '#008060',
+                'shopify-700': '#006e52'
+            },
+            keyframes: {
+                toast: {
+                    '0%': { bottom: '-6rem' },
+                    '25%': { bottom: '6rem' },
+                    '50%': { bottom: '6rem' },
+                    '75%': { bottom: '6rem' },
+                    '100%': { bottom: '-6rem' }
+                },
+                fadeIn: {
+                    '0%': { opacity: '0%' },
+                    '100%': { opacity: '100%'}
+                }
+            },
+            animation: {
+                toast: 'toast 7.5s',
+                fastToast: 'toast 2s',
+                fadeIn: 'fadeIn 0.7s ease-in-out'
+            }
+        }
+      }
+    }        
+    </script>    
+</head>
+
+<body>
+	<div class="w-full">
+        <div class="max-w-3xl ml-auto mr-auto mb-12">
+            <!-- stat -->
+            <div class="my-10">
+              <h3 class="text-2xl font-medium leading-6 text-gray-900">Welcome to Artory Admin Dashboard</h3>
+              <dl class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                  <dt class="truncate text-sm font-medium text-gray-500">Total Diamonds</dt>
+                  <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%= data.diamond_total %></dd>
+                </div>
+
+                <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                  <div class="flex justify-between">
+                    <div class="truncate text-sm font-medium text-gray-500">Unpublished Diamonds</div>
+                    <a href="https://artorydiamonds.myshopify.com/admin/bulk?resource_name=Product&edit=status%2Cvariants.price%2Cvariants.compare_at_price%2Cvariants.cost&return_to=%2Fadmin%2Fproducts&selectedView=all&vendor=import&status=DRAFT&order=title+asc" target="_blank">Edit</a>
+                  </div>
+                  <!-- <dt class="truncate text-sm font-medium text-gray-500">Diamonds without retail price</dt> -->
+                  <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%= data.unedited_diamond_total %></dd>
+                </div>
+
+<!--                 <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                  <dt class="truncate text-sm font-medium text-gray-500">Last import from API </dt>
+                  <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">24.57%</dd>
+                </div>
+
+                <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                  <dt class="truncate text-sm font-medium text-gray-500">Last import from Excel</dt>
+                  <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">24.57%</dd>
+                </div>    -->                           
+              </dl>
+            </div>
+
+            <!-- diamond import -->
+            <div>
+                <h2 class="text-2xl font-medium leading-6 text-gray-900">Diamond import</h2>
+                <!-- api -->
+                <div class="bg-white shadow sm:rounded-lg my-6">
+                  <div class="px-4 py-5 sm:p-6">
+                    <div class="sm:flex sm:items-center sm:justify-between">
+                      <div>
+                        <h3 class="text-lg font-medium leading-6 text-gray-900">Import from API</h3>
+                        <div class="mt-2 max-w-xl text-sm text-gray-500">
+                          <p>Automatic importing is run at 09:00 and 21:00 daily.</p>
+                        </div>
+                      </div>
+                      <div class="mt-5 sm:mt-0 sm:ml-6 sm:flex sm:flex-shrink-0 sm:items-center">
+                        <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-shopify-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-shopify-700 focus:outline-none focus:ring-2 focus:ring-shopify-600 focus:ring-offset-2 sm:text-sm" onclick="app.importFromApi();">Import immediately</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>   
+
+                <!-- excel -->
+<!--                 <div class="bg-white shadow sm:rounded-lg my-6">
+                  <div class="px-4 py-5 sm:p-6">
+                    <div class="sm:flex sm:items-center sm:justify-between items-center">
+                      <div>
+                        <h3 class="text-lg font-medium leading-6 text-gray-900">Import from Excel file</h3>
+                      </div>
+                      <div class="mt-5 sm:mt-0 sm:ml-6 sm:flex sm:flex-shrink-0 sm:items-center">
+                        <form id="excel-form" action="/import_from_excel?shop=artorydiamonds.myshopify.com" method="post" enctype="multipart/form-data">
+                          <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-shopify-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-shopify-700 focus:outline-none focus:ring-2 focus:ring-shopify-600 focus:ring-offset-2 sm:text-sm" onclick="this.nextElementSibling.click();">Import</button>
+                          <input name="excel" value="Import" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="hidden inline-flex items-center rounded-md border border-transparent bg-shopify-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-shopify-700 focus:outline-none focus:ring-2 focus:ring-shopify-600 focus:ring-offset-2 sm:text-sm" onchange="app.importFromExcel();">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- modal -->
+    <div class="modal modal-ani1 relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <!--
+        Background backdrop, show/hide based on modal state.
+
+        Entering: "ease-out duration-300"
+          From: "opacity-0"
+          To: "opacity-100"
+        Leaving: "ease-in duration-200"
+          From: "opacity-100"
+          To: "opacity-0"
+      -->
+      <div class="modal-ani2 fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity opacity-0"></div>
+
+      <div class="fixed inset-0 z-10 overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <!--
+            Modal panel, show/hide based on modal state.
+
+            Entering: "ease-out duration-300"
+              From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              To: "opacity-100 translate-y-0 sm:scale-100"
+            Leaving: "ease-in duration-200"
+              From: "opacity-100 translate-y-0 sm:scale-100"
+              To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          -->
+          <div class="modal-ani3 relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+            <div>
+              <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-shopify-600">
+                <!-- Heroicon name: outline/loading -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6 text-green-600">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+
+              </div>
+              <div class="mt-3 text-center sm:mt-5">
+                <h3 class="modal-title text-lg font-medium leading-6 text-gray-900" id="modal-title">Importing...</h3>
+                <div class="mt-2">
+                  <p class="modal-description text-sm text-gray-500">Please wait until the importing is completed.</p>
+                  <button type="button" class="modal-button mt-2 inline-flex items-center rounded-md border border-transparent bg-shopify-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-shopify-700 focus:outline-none focus:ring-2 focus:ring-shopify-600 focus:ring-offset-2 sm:text-sm hidden" onclick="location.reload();">Ok!</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+
+    <script src="https://unpkg.com/@shopify/app-bridge@2"></script>
+    <script src="https://unpkg.com/@shopify/app-bridge-utils"></script>
+    <script>
+    var APIKEY = 'c3d05badedb9aaad456523b4eaa3d88a';
+    var AppBridge = window['app-bridge'];
+    var createApp = AppBridge.default;
+    var getSessionToken = window['app-bridge-utils'].getSessionToken;
+    var shopifyApp = createApp({
+        apiKey: APIKEY,
+        shopOrigin: 'artorydiamonds.myshopify.com'
+    });
+    var APIHOST = '<%= data.host %>'
+    var t;
+
+    var app = {};
+    var data = {
+        shop: 'artorydiamonds.myshopify.com', 
+        modal: {
+          ani1: document.querySelector('.modal-ani1'),
+          ani2: document.querySelector('.modal-ani2'),
+          ani3: document.querySelector('.modal-ani3'),
+          message: document.querySelector('.modal-message'),
+          title: document.querySelector('.modal-title'),
+          description: document.querySelector('.modal-description'),
+          button: document.querySelector('.modal-button')
+        },
+        excel_form: document.querySelector('#excel-form'),
+        excel_input: document.querySelector('[name="excel"]')
+    };
+
+    
+
+    app.importFromApi = async function() {
+        console.log('api');
+        app.showModal();
+
+        var getToken = await getSessionToken(shopifyApp).then(token => { t = token });
+        var params = {
+          shop: 'artory'
+        };
+
+        await fetch(APIHOST + `/import_from_api`, {
+            method: "POST",
+            headers: new Headers({
+              Authorization: "Bearer " + t,
+              "Content-Type": "application/json",
+        }),
+            body: JSON.stringify(params)
+        })
+        .then(res => {
+          console.log(res);
+
+          if (res.status === 200) {
+            data.modal.title.innerText = 'Successfully imported from API';
+            data.modal.description.classList.add('hidden');
+            data.modal.button.classList.remove('hidden');
+          }
+        })
+    }
+
+    app.importFromExcel = async function() {
+        console.log('excel');
+        app.showModal();
+
+        // data.excel_form.submit();
+        var getToken = await getSessionToken(shopifyApp).then(token => { t = token });
+        var form = new FormData();
+        form.append('shop', 'artory');
+        form.append('excel', data.excel_input.files[0]);
+
+        await fetch(APIHOST + `/import_from_excel`, {
+            method: "POST",
+            headers: new Headers({
+              Authorization: "Bearer " + t,
+              // "Content-Type": "application/json",
+        }),
+            body: form
+        })
+        .then(res => {
+          console.log(res);
+
+          if (res.status === 200) {
+            data.modal.title.innerText = 'Successfully imported from Excel';
+            data.modal.description.classList.add('hidden');
+            data.modal.button.classList.remove('hidden');
+          }
+        })        
+    }
+
+    app.showModal = function() {
+      // show modal, then run animation
+      data.modal.ani1.classList.remove('hidden');
+
+      setTimeout(function() {
+        // ani2 remove leaving class
+        data.modal.ani2.classList.remove('ease-in', 'duration-200');
+        data.modal.ani2.classList.remove('opacity-0');
+
+        // ani2 add entering class
+        data.modal.ani2.classList.add('ease-out', 'duration-300', 'opacity-100');
+
+        // remove leaving class
+        data.modal.ani3.classList.remove('ease-in', 'duration-200');
+        data.modal.ani3.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+
+        // add entering class
+        data.modal.ani3.classList.add('ease-out', 'duration-300');
+        data.modal.ani3.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
+
+      }, 0)  
+    }
+
+    app.hideModal = function() {
+      // run animation, then hide modal
+
+      // ani2 remove entering class
+      data.modal.ani2.classList.remove('ease-out', 'duration-300', 'opacity-100');
+
+      // ani2 add leaving class
+      data.modal.ani2.classList.add('ease-in', 'duration-200');
+      data.modal.ani2.classList.add('opacity-0');
+
+      // remove entering class
+      data.modal.ani3.classList.remove('ease-out', 'duration-300');
+      data.modal.ani3.classList.remove('opacity-100', 'translate-y-0', 'sm:scale-100');
+
+      // add leaving class
+      data.modal.ani3.classList.add('ease-in', 'duration-200');
+      data.modal.ani3.classList.add('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+
+      setTimeout(function() {
+        data.modal.ani1.classList.remove('block');
+        data.modal.ani1.classList.add('hidden');
+      }, 200)
+    }    
+            
+    </script>
+
+</body>
+
+</html>
